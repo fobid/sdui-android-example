@@ -1,10 +1,14 @@
-package com.fobid.sdui
+package com.fobid.sdui.ui.activities
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import android.widget.TextView
+import com.fobid.sdui.R
+import com.fobid.sdui.TestService
+import com.fobid.sdui.libs.epoxy.HomeEpoxyController
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -17,19 +21,25 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val textView: TextView = findViewById(R.id.text)
-
-        val httpLogging = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+        val controller = HomeEpoxyController()
+        epoxy_recycler_view.setController(controller)
 
         Retrofit.Builder()
                 .baseUrl("http://192.168.0.5:3000/")
                 .addConverterFactory(JacksonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .client(OkHttpClient.Builder().addInterceptor(httpLogging).build())
+                .client(OkHttpClient.Builder()
+                        .addInterceptor(HttpLoggingInterceptor()
+                                .setLevel(HttpLoggingInterceptor.Level.BODY))
+                        .build())
                 .build()
                 .create(TestService::class.java)
                 .home()
                 .subscribeOn(Schedulers.io())
-                .subscribe { home -> Log.d("home? %s", home.toString()) }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { home ->
+                    controller.setData(home)
+                }
+
     }
 }

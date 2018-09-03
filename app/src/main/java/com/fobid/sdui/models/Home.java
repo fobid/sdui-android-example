@@ -1,4 +1,4 @@
-package com.fobid.sdui;
+package com.fobid.sdui.models;
 
 import android.os.Parcelable;
 

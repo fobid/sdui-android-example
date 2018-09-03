@@ -1,4 +1,4 @@
-package com.fobid.sdui;
+package com.fobid.sdui.models;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -17,7 +17,7 @@ public abstract class BannersRowDataModel implements RowDataModel {
     public abstract String desc();
 
     @JsonProperty
-    public abstract List<BannerModel> banners();
+    public abstract List<Banner> banners();
 
     @AutoValue.Builder
     abstract static class Builder {
@@ -26,7 +26,7 @@ public abstract class BannersRowDataModel implements RowDataModel {
         abstract Builder desc(String desc);
 
         @JsonProperty
-        abstract Builder banners(List<BannerModel> banners);
+        abstract Builder banners(List<Banner> banners);
 
         abstract BannersRowDataModel build();
 

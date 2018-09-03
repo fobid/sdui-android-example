@@ -1,4 +1,4 @@
-package com.fobid.sdui;
+package com.fobid.sdui.models;
 
 import android.os.Parcelable;
 
@@ -8,8 +8,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 
 @AutoValue
-@JsonDeserialize(builder = AutoValue_BannerModel.Builder.class)
-public abstract class BannerModel implements Parcelable {
+@JsonDeserialize(builder = AutoValue_Banner.Builder.class)
+public abstract class Banner implements Parcelable {
 
     @JsonProperty
     public abstract String image();
@@ -26,11 +26,11 @@ public abstract class BannerModel implements Parcelable {
         @JsonProperty
         abstract Builder action(String action);
 
-        abstract BannerModel build();
+        abstract Banner build();
 
         @JsonCreator
         public static Builder builder() {
-            return new AutoValue_BannerModel.Builder();
+            return new AutoValue_Banner.Builder();
         }
     }
 }
